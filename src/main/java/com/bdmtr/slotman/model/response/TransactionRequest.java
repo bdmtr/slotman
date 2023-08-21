@@ -10,6 +10,8 @@ public class TransactionRequest {
     private TransactionType type;
     private LocalDateTime timestamp;
 
+    public TransactionRequest() {
+    }
 
     public TransactionRequest(int userId, int amount, TransactionType type) {
         this.userId = userId;

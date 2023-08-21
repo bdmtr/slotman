@@ -2,6 +2,9 @@ package com.bdmtr.slotman.model.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -14,7 +17,14 @@ public class User {
     @Column(nullable = false, updatable = false)
     private int id;
 
+    @NotBlank(message = "username cant be blank")
+    @Min(value = 5, message = "username must be 5 symbols minimum")
+    @Max(value = 15, message = "username cannot be more than 15 symbols")
     private String username;
+
+    @NotBlank(message = "password cant be blank")
+    @Min(value = 5, message = "password must be 5 symbols minimum")
+    @Max(value = 15, message = "password cannot be more than 15 symbols")
     private String password;
     private int income;
     private int outcome;

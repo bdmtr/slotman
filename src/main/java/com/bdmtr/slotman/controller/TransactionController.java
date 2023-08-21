@@ -1,5 +1,7 @@
 package com.bdmtr.slotman.controller;
 
+import com.bdmtr.slotman.model.entity.Transaction;
+import com.bdmtr.slotman.model.entity.User;
 import com.bdmtr.slotman.model.response.TransactionRequest;
 import com.bdmtr.slotman.model.request.TransactionResponse;
 import com.bdmtr.slotman.model.enums.TransactionType;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/transactions")
@@ -37,16 +40,16 @@ public class TransactionController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<TransactionResponse>> getTransactionsForUser(@RequestParam("userId") Integer userId,
+    public ResponseEntity<List<Transaction>> getTransactionsForUser(@RequestParam("userId") Integer userId,
                                                                             @RequestParam("type") TransactionType type,
                                                                             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                                                             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        List<TransactionResponse> transactions = transactionService.getAllByUserIdAndTypeAndTimestampBetween(userId, type, start, end);
+        List<Transaction> transactions = transactionService.getAllByUserIdAndTypeAndTimestampBetween(userId, type, start, end);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createTransaction(@RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<Void> addTransaction(@RequestBody TransactionRequest transactionRequest) {
         transactionService.createTransaction(transactionRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

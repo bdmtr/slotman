@@ -3,6 +3,7 @@ package com.bdmtr.slotman.model.entity;
 import com.bdmtr.slotman.model.enums.TransactionType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Min(value = 1, message = "cant send less then 1")
     private int amount;
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +27,12 @@ public class Transaction {
     private LocalDateTime timestamp;
 
     public Transaction() {
+    }
+
+    public Transaction(User user, int amount, TransactionType type) {
+        this.user = user;
+        this.amount = amount;
+        this.type = type;
     }
 
     public Transaction(Long id, User user, int amount, TransactionType type, LocalDateTime timestamp) {
