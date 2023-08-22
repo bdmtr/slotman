@@ -30,4 +30,10 @@ public class GlobalExceptionHandler {
         logger.error("handleException: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
+    @ExceptionHandler(UserExistException.class)
+    public ResponseEntity<String> handleUserExistException(UserExistException exception) {
+        logger.error("handleException: " + exception.getMessage());
+        return ResponseEntity.status(HttpStatus.IM_USED).body(exception.getMessage());
+    }
 }
