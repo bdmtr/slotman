@@ -1,5 +1,6 @@
 package com.bdmtr.slotman.model.service;
 
+import com.bdmtr.slotman.exception.TransactionNotFoundException;
 import com.bdmtr.slotman.exception.UserNotFoundException;
 import com.bdmtr.slotman.model.response.TransactionRequest;
 import com.bdmtr.slotman.model.request.TransactionResponse;
@@ -28,7 +29,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
-    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+   private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Autowired
     public TransactionService(UserRepository userRepository, TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
@@ -46,7 +47,8 @@ public class TransactionService {
 
     public TransactionResponse getTransactionById(Long id) {
         Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findById(id));
-        return transactionOptional.map(transactionMapper::mapToResponse).orElse(null);
+        Transaction transaction = transactionOptional.orElseThrow(() -> new TransactionNotFoundException("Cant find transactions with id: " + id));
+        return transactionMapper.mapToResponse(transaction);
     }
 
     public List<Transaction> getAllByUserIdAndTypeAndTimestampBetween(Integer userId, TransactionType type, LocalDateTime start, LocalDateTime end) {
