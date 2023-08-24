@@ -10,11 +10,11 @@ import com.bdmtr.slotman.model.enums.TransactionType;
 import com.bdmtr.slotman.model.mapper.TransactionMapper;
 import com.bdmtr.slotman.model.repository.TransactionRepository;
 import com.bdmtr.slotman.model.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -22,14 +22,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @Transactional
 public class TransactionService {
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
-
-   private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Autowired
     public TransactionService(UserRepository userRepository, TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
@@ -40,6 +39,7 @@ public class TransactionService {
 
     public List<TransactionResponse> getAllTransactions() {
         List<Transaction> transactions = transactionRepository.findAll();
+
         return transactions.stream()
                 .map(transactionMapper::mapToResponse)
                 .collect(Collectors.toList());
@@ -47,12 +47,16 @@ public class TransactionService {
 
     public TransactionResponse getTransactionById(Long id) {
         Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findById(id));
+
+        log.info("Attempting to retrieve transaction with id: {}", id);
+
         Transaction transaction = transactionOptional.orElseThrow(() -> new TransactionNotFoundException("Cant find transactions with id: " + id));
         return transactionMapper.mapToResponse(transaction);
     }
 
     public List<Transaction> getAllByUserIdAndTypeAndTimestampBetween(Integer userId, TransactionType type, LocalDateTime start, LocalDateTime end) {
-        Optional<User> existingUserOptional = Optional.ofNullable(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Cant find transactions for user: " + userId)));
+        userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Cant find transactions for user: " + userId));
+
         List<Transaction> transactions = transactionRepository.findByUserIdAndTypeAndTimestampBetween(userId, type, start, end);
         return transactions;
     }
