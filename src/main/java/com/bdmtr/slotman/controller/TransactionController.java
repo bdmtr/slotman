@@ -39,11 +39,11 @@ public class TransactionController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Transaction>> getTransactionsForUser(@RequestParam("userId") Integer userId,
+    public ResponseEntity<List<TransactionResponse>> getTransactionsForUser(@RequestParam("userId") Integer userId,
                                                                             @RequestParam("type") TransactionType type,
                                                                             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                                                             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        List<Transaction> transactions = transactionService.getAllByUserIdAndTypeAndTimestampBetween(userId, type, start, end);
+        List<TransactionResponse> transactions = transactionService.getAllByUserIdAndTypeAndTimestampBetween(userId, type, start, end);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 

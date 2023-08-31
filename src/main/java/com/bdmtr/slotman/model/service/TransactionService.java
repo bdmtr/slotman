@@ -54,11 +54,13 @@ public class TransactionService {
         return transactionMapper.mapToResponse(transaction);
     }
 
-    public List<Transaction> getAllByUserIdAndTypeAndTimestampBetween(Integer userId, TransactionType type, LocalDateTime start, LocalDateTime end) {
+    public List<TransactionResponse> getAllByUserIdAndTypeAndTimestampBetween(Integer userId, TransactionType type, LocalDateTime start, LocalDateTime end) {
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Cant find transactions for user: " + userId));
 
         List<Transaction> transactions = transactionRepository.findByUserIdAndTypeAndTimestampBetween(userId, type, start, end);
-        return transactions;
+        return transactions.stream()
+                .map(transactionMapper::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     public void createTransaction(TransactionRequest transactionRequest) {

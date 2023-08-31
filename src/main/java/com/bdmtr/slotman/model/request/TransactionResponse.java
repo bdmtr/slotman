@@ -3,6 +3,7 @@ package com.bdmtr.slotman.model.request;
 import com.bdmtr.slotman.model.enums.TransactionType;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class TransactionResponse {
     private Long id;
@@ -60,5 +61,18 @@ public class TransactionResponse {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransactionResponse that = (TransactionResponse) o;
+        return userId == that.userId && amount == that.amount && Objects.equals(id, that.id) && type == that.type && Objects.equals(timestamp, that.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, amount, type, timestamp);
     }
 }
