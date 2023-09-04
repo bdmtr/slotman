@@ -1,6 +1,5 @@
 package com.bdmtr.slotman.controller;
 
-import com.bdmtr.slotman.model.entity.Transaction;
 import com.bdmtr.slotman.model.response.TransactionRequest;
 import com.bdmtr.slotman.model.request.TransactionResponse;
 import com.bdmtr.slotman.model.enums.TransactionType;
