@@ -5,6 +5,7 @@ import com.bdmtr.slotman.model.request.TransactionResponse;
 import com.bdmtr.slotman.model.enums.TransactionType;
 import com.bdmtr.slotman.model.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,11 @@ public class TransactionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<TransactionResponse>> getAllTransactions() {
-        List<TransactionResponse> transactions = transactionService.getAllTransactions();
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    public ResponseEntity<Page<TransactionResponse>> getAllTransactions(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<TransactionResponse> transactionsPage = transactionService.getAllTransactions(page, size);
+        return new ResponseEntity<>(transactionsPage, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

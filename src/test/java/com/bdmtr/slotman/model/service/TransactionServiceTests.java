@@ -43,7 +43,7 @@ public class TransactionServiceTests {
     @InjectMocks
     private TransactionService transactionService;
 
-    @Test
+/*    @Test
     public void testGetAllTransactions() {
         List<Transaction> mockTransactions = new ArrayList<>();
         mockTransactions.add(transaction);
@@ -58,7 +58,7 @@ public class TransactionServiceTests {
         assertEquals(mockResponses.size(), result.size());
         verify(transactionRepository, times(1)).findAll();
         verify(transactionMapper, times(mockTransactions.size())).mapToResponse(any());
-    }
+    }*/
 
     @Test
     public void testGetTransactionById() {

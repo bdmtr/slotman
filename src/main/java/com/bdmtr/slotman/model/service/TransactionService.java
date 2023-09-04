@@ -12,6 +12,9 @@ import com.bdmtr.slotman.model.repository.TransactionRepository;
 import com.bdmtr.slotman.model.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -37,12 +40,11 @@ public class TransactionService {
         this.transactionMapper = transactionMapper;
     }
 
-    public List<TransactionResponse> getAllTransactions() {
-        List<Transaction> transactions = transactionRepository.findAll();
+    public Page<TransactionResponse> getAllTransactions(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Transaction> transactionsPage = transactionRepository.findAll(pageable);
 
-        return transactions.stream()
-                .map(transactionMapper::mapToResponse)
-                .collect(Collectors.toList());
+        return transactionsPage.map(transactionMapper::mapToResponse);
     }
 
     public TransactionResponse getTransactionById(Long id) {

@@ -5,7 +5,7 @@
       <label for="transactionId">Transaction ID:</label>
       <input type="number" id="transactionId" v-model="searchId">
       <button @click="findTransaction">Find</button>
-      <button @click="fetchTransactions">Find All</button>
+      <button @click="fetchTransactions" :disabled="searchId !== ''">Find All</button>
     </div>
     <div class="filters">
       <label for="userIdFilter">User ID:</label>
@@ -24,6 +24,7 @@
       <input type="datetime-local" id="endDateFilter" v-model="endDateFilter">
 
       <button @click="filterTransactions">Apply Filters</button>
+      <button @click="resetFilters">Reset Filters</button>
     </div>
     <table>
       <thead>
@@ -49,6 +50,14 @@
       </tbody>
     </table>
   </div>
+
+  <div class="pagination">
+    <button @click="loadPage(currentPage - 1)" :disabled="currentPage === 0 || (filtersApplied && currentPage === 1)">Previous</button>
+    <button @click="loadPage(currentPage + 1)" :disabled="currentPage >= totalPages - 1 || (filtersApplied && currentPage === 0)">Next</button>
+  </div>
+
+
+
 </template>
 
 
@@ -58,24 +67,68 @@ export default {
   data() {
     return {
       transactions: [],
-      searchId: null,
+      searchId: '',
+      currentPage: 0,
+      totalPages: 0,
+      pageSize: 10,
+      userIdFilter: null,
+      typeFilter: null,
+      startDateFilter: null,
+      endDateFilter: null,
+      filtersApplied: false,
     };
   },
-  async mounted() {
-    await this.fetchTransactions();
+  computed: {
+    isFilteringById() {
+      return !!this.searchId;
+    },
   },
+  async mounted() {
+    await this.loadPage(this.currentPage);
+  },
+
   methods: {
-    async fetchTransactions() {
+    async loadPage(page) {
+      this.filtersApplied = false;
       try {
-        const response = await fetch('http://localhost:8080/transactions/all');
-        this.transactions = await response.json();
+        const response = await fetch(
+            `http://localhost:8080/transactions/all?page=${page}&size=${this.pageSize}`
+        );
+        if (response.status === 200) {
+          const data = await response.json();
+          this.transactions = data.content;
+          this.currentPage = data.number;
+          this.totalPages = data.totalPages;
+        } else {
+          console.error('Error fetching transactions:', error);
+        }
       } catch (error) {
         console.error('Error fetching transactions:', error);
       }
     },
+
+    async fetchTransactions() {
+      try {
+        const response = await fetch(
+            `http://localhost:8080/transactions/all?page=${this.currentPage}&size=${this.pageSize}`
+        );
+
+        if (response.status === 200) {
+          const data = await response.json();
+          this.transactions = data.content;
+          this.currentPage = data.number;
+          this.totalPages = data.totalPages;
+        } else {
+          console.error('Error fetching transactions:', error);
+        }
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
+    },
+
     async findTransaction() {
       if (!this.searchId) {
-        return; // Не выполняем запрос без указания ID
+        return;
       }
       try {
         const response = await fetch(`http://localhost:8080/transactions/${this.searchId}`);
@@ -93,6 +146,14 @@ export default {
       const date = new Date(timestamp);
       const options = {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'};
       return date.toLocaleDateString('en-US', options);
+    },
+
+    resetFilters() {
+      this.userIdFilter = null;
+      this.typeFilter = null;
+      this.startDateFilter = null;
+      this.endDateFilter = null;
+      this.loadPage(0);
     },
 
     async filterTransactions() {
@@ -125,6 +186,7 @@ export default {
           } else {
             this.transactions = [];
           }
+
         } else {
           this.transactions = [];
         }
@@ -132,7 +194,7 @@ export default {
         console.error('Error fetching filtered transactions:', error);
         this.transactions = [];
       }
-
+      this.filtersApplied = this.userIdFilter || this.typeFilter || this.startDateFilter || this.endDateFilter;
     },
   },
 
