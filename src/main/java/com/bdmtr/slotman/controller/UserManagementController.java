@@ -12,22 +12,20 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserManagementController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserManagementController(UserService userService) {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
         Optional<User> user = userService.getUserById(id);
@@ -35,20 +33,18 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/create")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/update")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:8081")
+
     @PostMapping("/{id}/update")
     public ResponseEntity<User> updateUserStatusById(@PathVariable("id") Integer id,
                                                      @RequestParam("status") Status status) {

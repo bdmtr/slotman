@@ -17,12 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transactions")
-public class TransactionController {
+public class TransactionAdminController {
 
     private final TransactionService transactionService;
 
     @Autowired
-    public TransactionController(TransactionService transactionService) {
+    public TransactionAdminController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 

@@ -47,6 +47,12 @@ public class TransactionService {
         return transactionsPage.map(transactionMapper::mapToResponse);
     }
 
+    public Page<TransactionResponse> getAllTransactionsForUser(int userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Transaction> transactionsPage = transactionRepository.findAllByUserId(userId, pageable);
+        return transactionsPage.map(transactionMapper::mapToResponse);
+    }
+
     public TransactionResponse getTransactionById(Long id) {
         Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findById(id));
 
