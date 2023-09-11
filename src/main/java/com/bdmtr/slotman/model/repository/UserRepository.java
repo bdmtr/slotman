@@ -26,4 +26,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int updateUserStatusById(Integer userId, Status status);
 
     Optional<User> findByUsername(String username);
+
+    Optional<User> findById(int id);
 }

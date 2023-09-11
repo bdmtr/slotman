@@ -1,5 +1,6 @@
 package com.bdmtr.slotman.controller;
 
+import com.bdmtr.slotman.model.dto.UserDTO;
 import com.bdmtr.slotman.model.entity.Status;
 import com.bdmtr.slotman.model.entity.User;
 import com.bdmtr.slotman.model.service.UserService;
@@ -34,7 +35,7 @@ public class UserManagementController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody UserDTO user) {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

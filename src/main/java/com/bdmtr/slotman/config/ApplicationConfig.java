@@ -3,6 +3,7 @@ package com.bdmtr.slotman.config;
 import com.bdmtr.slotman.exception.UserNotFoundException;
 import com.bdmtr.slotman.model.entity.User;
 import com.bdmtr.slotman.model.repository.UserRepository;
+import com.bdmtr.slotman.model.service.UserService;
 import com.bdmtr.slotman.security.CustomUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -2,6 +2,7 @@ package com.bdmtr.slotman.model.service;
 
 import com.bdmtr.slotman.exception.UserExistException;
 import com.bdmtr.slotman.exception.UserNotFoundException;
+import com.bdmtr.slotman.model.dto.UserDTO;
 import com.bdmtr.slotman.model.entity.Role;
 import com.bdmtr.slotman.model.entity.Status;
 import com.bdmtr.slotman.model.entity.User;
@@ -25,7 +26,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -49,25 +50,22 @@ public class UserService implements UserDetailsService{
     }
 
     @Transactional
-    public void createUser(User user) {
-        String username = user.getUsername();
+    public void createUser(UserDTO userDTO) {
+        String username = userDTO.getUsername();
         Optional<User> newUser = userRepository.findByUsername(username);
         if (newUser.isPresent()) {
             throw new UserExistException("User already exists");
         }
-
-
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
-
-        user.setIncome(0);
-        user.setOutcome(0);
-        Role userRole = roleRepository.findByName("user");
+        String password = passwordEncoder.encode(userDTO.getPassword());
+        String userName = userDTO.getUsername();
+        int income = 0;
+        int outcome = 0;
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+        Role userRole = roleRepository.findByName("USER");
         Status userStatus = statusRepository.findByName("active");
-        user.setRole(userRole);
-        user.setStatus(userStatus);
-        user.setCreationDate(Timestamp.valueOf(LocalDateTime.now()));
+
+        User user = new User(userName, password, income, outcome, timestamp, userRole, userStatus);
+
         userRepository.save(user);
     }
 

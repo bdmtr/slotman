@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers("/api/transactions/**").hasRole("ADMIN")
                         .antMatchers("/api/auth/login").permitAll()
+                        .antMatchers("/api/users/create").permitAll()
                         .antMatchers("/api/personal/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )

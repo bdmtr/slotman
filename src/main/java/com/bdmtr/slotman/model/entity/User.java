@@ -2,15 +2,14 @@ package com.bdmtr.slotman.model.entity;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +17,11 @@ public class User{
     private int id;
 
     @NotBlank(message = "username cant be blank")
-    @Min(value = 5, message = "username must be 5 symbols minimum")
-    @Max(value = 15, message = "username cannot be more than 15 symbols")
+    @Size(min=5, max=15, message = "username must be 5 symbols minimum, 15 maximum")
     private String username;
 
     @NotBlank(message = "password cant be blank")
-    @Min(value = 5, message = "password must be 5 symbols minimum")
-    @Max(value = 15, message = "password cannot be more than 15 symbols")
+    @Size(min=5)
     private String password;
     private int income;
     private int outcome;
@@ -38,11 +35,7 @@ public class User{
     @JoinColumn(name = "statusId")
     Status status;
 
-    public User() {
-    }
-
-    public User(int id, String username, String password, int income, int outcome, Timestamp creationDate, Role role, Status status) {
-        this.id = id;
+    public User(String username, String password, int income, int outcome, Timestamp creationDate, Role role, Status status) {
         this.username = username;
         this.password = password;
         this.income = income;
@@ -50,6 +43,9 @@ public class User{
         this.creationDate = creationDate;
         this.role = role;
         this.status = status;
+    }
+
+    public User() {
     }
 
     public int getId() {
