@@ -33,6 +33,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserExistException.class)
     public ResponseEntity<String> handleUserExistException(UserExistException exception) {
         log.error("handleException: " + exception.getMessage());
-        return ResponseEntity.status(HttpStatus.IM_USED).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 }

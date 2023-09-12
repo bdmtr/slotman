@@ -11,6 +11,16 @@ const routes = [
         name: 'Transactions',
         component: () => import('@/components/Transaction.vue'),
     },
+    {
+        path: '/personal',
+        name: 'Personal',
+        component: () => import('@/components/Personal.vue'),
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: () => import('@/components/Register.vue'),
+    },
 ];
 
 const router = createRouter({

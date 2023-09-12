@@ -92,7 +92,7 @@ export default {
       this.filtersApplied = false;
       try {
         const response = await fetch(
-            `http://localhost:8080/transactions/all?page=${page}&size=${this.pageSize}`
+            `http://localhost:8080/api/transactions/all?page=${page}&size=${this.pageSize}`
         );
         if (response.status === 200) {
           const data = await response.json();
@@ -110,7 +110,7 @@ export default {
     async fetchTransactions() {
       try {
         const response = await fetch(
-            `http://localhost:8080/transactions/all?page=${this.currentPage}&size=${this.pageSize}`
+            `http://localhost:8080/api/transactions/all?page=${this.currentPage}&size=${this.pageSize}`
         );
 
         if (response.status === 200) {
@@ -131,7 +131,7 @@ export default {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:8080/transactions/${this.searchId}`);
+        const response = await fetch(`http://localhost:8080/api/transactions/${this.searchId}`);
         if (response.status === 200) {
           const transaction = await response.json();
           this.transactions = [transaction];
@@ -157,7 +157,7 @@ export default {
     },
 
     async filterTransactions() {
-      let apiUrl = 'http://localhost:8080/transactions/user?';
+      let apiUrl = 'http://localhost:8080/api/transactions/user?';
 
       if (this.userIdFilter) {
         apiUrl += `userId=${this.userIdFilter}&`;
