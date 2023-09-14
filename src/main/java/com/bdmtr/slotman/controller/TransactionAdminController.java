@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")
+@CrossOrigin("http://localhost:8081")
 public class TransactionAdminController {
 
     private final TransactionService transactionService;

@@ -47,11 +47,12 @@ public class TransactionService {
         return transactionsPage.map(transactionMapper::mapToResponse);
     }
 
-    public Page<TransactionResponse> getAllTransactionsForUser(int userId, int page, int size) {
+    public Page<TransactionResponse> getAllTransactionsForUser(String username, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Transaction> transactionsPage = transactionRepository.findAllByUserId(userId, pageable);
+        Page<Transaction> transactionsPage = transactionRepository.findAllByUserName(username, pageable);
         return transactionsPage.map(transactionMapper::mapToResponse);
     }
+
 
     public TransactionResponse getTransactionById(Long id) {
         Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findById(id));

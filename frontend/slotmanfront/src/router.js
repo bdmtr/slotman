@@ -4,7 +4,7 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: () => import('@/components/Home.vue'),
+        component: () => import('@/components/Login.vue'),
     },
     {
         path: '/transactions',
@@ -20,6 +20,11 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: () => import('@/components/Register.vue'),
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('@/components/Login.vue'),
     },
 ];
 

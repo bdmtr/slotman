@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/personal")
+@CrossOrigin("http://localhost:8081")
 public class TransactionUserController {
     private final TransactionService transactionService;
 
@@ -21,13 +22,14 @@ public class TransactionUserController {
 
     @GetMapping("/all")
     public ResponseEntity<Page<TransactionResponse>> getAllTransactionsForUser(
-            @RequestParam("userId") Integer userId,
+            @RequestParam("username") String username,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        Page<TransactionResponse> transactionsPage = transactionService.getAllTransactionsForUser(userId, page, size);
+        Page<TransactionResponse> transactionsPage = transactionService.getAllTransactionsForUser(username, page, size);
         return new ResponseEntity<>(transactionsPage, HttpStatus.OK);
     }
+
 
     @PostMapping("/create")
     public ResponseEntity<TransactionResponse> addTransaction(@RequestBody TransactionRequest transactionRequest) {

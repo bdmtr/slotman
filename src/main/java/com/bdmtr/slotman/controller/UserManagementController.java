@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin("http://localhost:8081")
 public class UserManagementController {
 
     private final UserService userService;

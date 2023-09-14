@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .logoutSuccessHandler((request, response, authentication) ->
                                 SecurityContextHolder.clearContext()))
                 .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler));
+        http.cors();
         return http.build();
     }
 }
