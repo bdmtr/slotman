@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * The `TransactionService` class provides service methods for managing transactions in your application.
+ */
 @Log4j2
 @Service
 @Transactional
@@ -40,6 +43,13 @@ public class TransactionService {
         this.transactionMapper = transactionMapper;
     }
 
+    /**
+     * Retrieves a paginated list of all transactions.
+     *
+     * @param page The page number.
+     * @param size The number of transactions per page.
+     * @return A `Page` containing transaction responses.
+     */
     public Page<TransactionResponse> getAllTransactions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Transaction> transactionsPage = transactionRepository.findAll(pageable);
@@ -47,13 +57,26 @@ public class TransactionService {
         return transactionsPage.map(transactionMapper::mapToResponse);
     }
 
+    /**
+     * Retrieves a paginated list of all transactions for a specific user.
+     *
+     * @param username The username of the user.
+     * @param page     The page number.
+     * @param size     The number of transactions per page.
+     * @return A `Page` containing transaction responses for the user.
+     */
     public Page<TransactionResponse> getAllTransactionsForUser(String username, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Transaction> transactionsPage = transactionRepository.findAllByUserName(username, pageable);
         return transactionsPage.map(transactionMapper::mapToResponse);
     }
 
-
+    /**
+     * Retrieves a transaction by its unique ID.
+     *
+     * @param id The ID of the transaction to retrieve.
+     * @return The transaction response if found, or throws a `TransactionNotFoundException`.
+     */
     public TransactionResponse getTransactionById(Long id) {
         Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findById(id));
 
@@ -63,6 +86,15 @@ public class TransactionService {
         return transactionMapper.mapToResponse(transaction);
     }
 
+    /**
+     * Retrieves all transactions for a specific user within a date range and of a specific type.
+     *
+     * @param userId The ID of the user.
+     * @param type   The type of transaction (e.g., income or outcome).
+     * @param start  The start timestamp.
+     * @param end    The end timestamp.
+     * @return A list of transaction responses that match the criteria.
+     */
     public List<TransactionResponse> getAllByUserIdAndTypeAndTimestampBetween(Integer userId, TransactionType type, LocalDateTime start, LocalDateTime end) {
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Cant find transactions for user: " + userId));
 
@@ -72,6 +104,11 @@ public class TransactionService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Creates a new transaction and updates the user's balance based on the transaction type.
+     *
+     * @param transactionRequest The transaction request containing transaction details.
+     */
     public void createTransaction(TransactionRequest transactionRequest) {
         int transactionUserId = transactionRequest.getUserId();
         Optional<User> existingUser = Optional.ofNullable(userRepository.findById(transactionUserId).orElseThrow(() -> new UserNotFoundException("Cant find user: " + transactionUserId)));

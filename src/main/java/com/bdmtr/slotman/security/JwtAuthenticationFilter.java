@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * A filter responsible for authenticating incoming requests using JWT.
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -32,6 +35,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Filters and authenticates incoming HTTP requests based on JWT tokens.
+     *
+     * @param request     The HTTP servlet request.
+     * @param response    The HTTP servlet response.
+     * @param filterChain The filter chain.
+     * @throws ServletException If a servlet exception occurs.
+     * @throws IOException      If an I/O exception occurs.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -53,6 +65,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Extracts the JWT token from the HTTP request.
+     *
+     * @param request The HTTP servlet request.
+     * @return The extracted JWT token or null if not found.
+     */
     private String extractJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

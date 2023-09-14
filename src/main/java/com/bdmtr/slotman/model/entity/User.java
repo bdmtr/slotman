@@ -7,6 +7,11 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * The User class represents the users.
+ * Role can be "USER" or "ADMIN".
+ * Status can be "ACTIVE" or "BLOCKED".
+ */
 @Entity
 @Table(name = "users")
 public class User {

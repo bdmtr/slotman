@@ -7,6 +7,10 @@ import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * The Transaction class represents the transactions of all users.
+ * TransactionType can be "INCOME" or "OUTCOME".
+ */
 @Entity
 @Table(name="transactions")
 public class Transaction {

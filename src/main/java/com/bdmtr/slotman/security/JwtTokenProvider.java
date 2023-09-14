@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.security.Key;
 
+/**
+ * Class for generating, parsing, and validating JWT (JSON Web Token) tokens.
+ */
 @Service
 public class JwtTokenProvider {
 
@@ -19,6 +22,12 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long jwtExpirationMs;
 
+    /**
+     * Generates a JWT token for the given username.
+     *
+     * @param username The username to include in the token.
+     * @return The generated JWT token.
+     */
     public String generateToken(String username) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + jwtExpirationMs);
@@ -32,6 +41,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    /**
+     * Retrieves the username from a JWT token.
+     *
+     * @param token The JWT token to extract the username from.
+     * @return The username extracted from the token.
+     */
     public String getUsernameFromToken(String token) {
         Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
@@ -43,6 +58,12 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    /**
+     * Validates a JWT token.
+     *
+     * @param token The JWT token to validate.
+     * @return {@code true} if the token is valid, {@code false} otherwise.
+     */
     public boolean validateToken(String token) {
         try {
             Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());

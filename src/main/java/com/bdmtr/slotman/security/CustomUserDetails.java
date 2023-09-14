@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Custom implementation of UserDetails interface for the User entity.
+ */
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
@@ -16,6 +19,11 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
+    /**
+     * Retrieves the authorities (roles) assigned to the user.
+     *
+     * @return A collection of GrantedAuthority objects representing user roles.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));

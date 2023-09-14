@@ -13,6 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller class responsible for handling authentication-related requests.
+ */
 @Log4j2
 @RestController
 @RequestMapping("/api/auth")
@@ -22,12 +25,23 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * Constructs a new AuthController instance.
+     *
+     * @param authenticationManager The authentication manager for user authentication.
+     * @param jwtTokenProvider     The JWT token provider for token generation and validation.
+     */
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
+    /**
+     * Authenticates a user based on the provided credentials.
+     *
+     * @param loginUser The user's login credentials (username and password) as a User object.
+     * @return A ResponseEntity containing a JWT token if authentication is successful, or an error message if authentication fails.
+     */
     @PostMapping("/login")
     public ResponseEntity<String> authenticateUser(@RequestBody User loginUser) {
         try {

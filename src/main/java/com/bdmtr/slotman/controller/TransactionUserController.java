@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * The `TransactionUserController` class is a controller responsible for handling transaction-related requests
+ * for a specific user in the application.
+ */
 @RestController
 @RequestMapping("/api/personal")
 @CrossOrigin("http://localhost:8081")
@@ -20,6 +23,14 @@ public class TransactionUserController {
         this.transactionService = transactionService;
     }
 
+    /**
+     * Handles the HTTP GET request to retrieve all transactions for a specific user.
+     *
+     * @param username The username of the user for whom transactions are requested.
+     * @param page     The page number for paginated results (default is 0).
+     * @param size     The number of transactions per page (default is 10).
+     * @return A `ResponseEntity` containing a paginated list of transaction responses and an HTTP status code.
+     */
     @GetMapping("/all")
     public ResponseEntity<Page<TransactionResponse>> getAllTransactionsForUser(
             @RequestParam("username") String username,
@@ -30,7 +41,12 @@ public class TransactionUserController {
         return new ResponseEntity<>(transactionsPage, HttpStatus.OK);
     }
 
-
+    /**
+     * Handles the HTTP POST request to create a new transaction for the current user.
+     *
+     * @param transactionRequest The transaction request containing transaction details.
+     * @return A `ResponseEntity` with an HTTP status code (CREATED) indicating a successful transaction creation.
+     */
     @PostMapping("/create")
     public ResponseEntity<TransactionResponse> addTransaction(@RequestBody TransactionRequest transactionRequest) {
         transactionService.createTransaction(transactionRequest);

@@ -24,6 +24,13 @@ public class ApplicationConfig {
         this.repository = repository;
     }
 
+    /**
+     * Creates a custom implementation of the `UserDetailsService` interface.
+     * This method retrieves user details from the database based on the username and constructs a `CustomUserDetails` object.
+     * @see CustomUserDetails
+     *
+     * @return A custom `UserDetailsService` implementation.
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -33,6 +40,12 @@ public class ApplicationConfig {
         };
     }
 
+    /**
+     * Configures an `AuthenticationProvider` for authentication purposes.
+     * It uses a `DaoAuthenticationProvider` with a custom `UserDetailsService` and a password encoder.
+     *
+     * @return An `AuthenticationProvider` instance.
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -42,6 +55,13 @@ public class ApplicationConfig {
         return authProvider;
     }
 
+    /**
+     * Creates an `AuthenticationManager` bean, which is responsible for handling authentication requests.
+     *
+     * @param config The `AuthenticationConfiguration` provided by Spring.
+     * @return An `AuthenticationManager` instance.
+     * @throws Exception If there is an issue with authentication configuration.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
             throws Exception {

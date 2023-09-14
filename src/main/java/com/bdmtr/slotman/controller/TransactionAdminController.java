@@ -1,5 +1,6 @@
 package com.bdmtr.slotman.controller;
 
+import com.bdmtr.slotman.model.repository.UserRepository;
 import com.bdmtr.slotman.model.response.TransactionRequest;
 import com.bdmtr.slotman.model.request.TransactionResponse;
 import com.bdmtr.slotman.model.enums.TransactionType;
@@ -14,7 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+/**
+ * The `TransactionAdminController` class handles HTTP requests related to transactions.
+ * This controller provides endpoints for retrieving and managing transactions, such as fetching all transactions,
+ * getting a specific transaction by ID, retrieving transactions for a user within a specific date range, and
+ * creating new transactions.
+ * @see TransactionService
+ */
 @RestController
 @RequestMapping("/api/transactions")
 @CrossOrigin("http://localhost:8081")
@@ -27,6 +34,13 @@ public class TransactionAdminController {
         this.transactionService = transactionService;
     }
 
+    /**
+     * Retrieve a page of transactions.
+     *
+     * @param page The page number (default is 0).
+     * @param size The number of transactions per page (default is 10).
+     * @return ResponseEntity containing a page of transaction responses and an HTTP status code.
+     */
     @GetMapping("/all")
     public ResponseEntity<Page<TransactionResponse>> getAllTransactions(
             @RequestParam(defaultValue = "0") int page,
@@ -35,12 +49,27 @@ public class TransactionAdminController {
         return new ResponseEntity<>(transactionsPage, HttpStatus.OK);
     }
 
+    /**
+     * Retrieve a transaction by its unique ID.
+     *
+     * @param id The ID of the transaction to retrieve.
+     * @return ResponseEntity containing the requested transaction response and an HTTP status code.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<TransactionResponse> getTransactionById(@PathVariable("id") Long id) {
         TransactionResponse transactionResponse = transactionService.getTransactionById(id);
         return new ResponseEntity<>(transactionResponse, HttpStatus.OK);
     }
 
+    /**
+     * Retrieve transactions for a user within a specific date range and of a particular type.
+     *
+     * @param userId The ID of the user for whom transactions are requested.
+     * @param type The type of transactions to retrieve (e.g., INCOME or OUTCOME).
+     * @param start The start date of the date range.
+     * @param end The end date of the date range.
+     * @return ResponseEntity containing a list of transaction responses and an HTTP status code.
+     */
     @GetMapping("/user")
     public ResponseEntity<List<TransactionResponse>> getTransactionsForUser(@RequestParam("userId") Integer userId,
                                                                             @RequestParam("type") TransactionType type,
@@ -50,6 +79,12 @@ public class TransactionAdminController {
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
+    /**
+     * Create a new transaction.
+     *
+     * @param transactionRequest The request body containing transaction details.
+     * @return ResponseEntity with an HTTP status code indicating the success of the transaction creation.
+     */
     @PostMapping("/create")
     public ResponseEntity<Void> addTransaction(@RequestBody TransactionRequest transactionRequest) {
         transactionService.createTransaction(transactionRequest);

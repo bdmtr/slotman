@@ -4,6 +4,10 @@ import com.bdmtr.slotman.model.enums.TransactionType;
 
 import java.time.LocalDateTime;
 
+/**
+ * The `TransactionRequest` class represents the request data for a transaction in your application.
+ * @see com.bdmtr.slotman.model.entity.Transaction
+ */
 public class TransactionRequest {
     private int userId;
     private int amount;

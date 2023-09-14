@@ -5,6 +5,10 @@ import com.bdmtr.slotman.model.enums.TransactionType;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * The `TransactionResponse` class represents the response data for a transaction in your application.
+ * @see com.bdmtr.slotman.model.entity.Transaction
+ */
 public class TransactionResponse {
     private Long id;
     private int userId;
@@ -15,6 +19,15 @@ public class TransactionResponse {
     public TransactionResponse() {
     }
 
+    /**
+     * Constructs a `TransactionResponse` object with the specified attributes.
+     *
+     * @param id        The unique identifier of the transaction.
+     * @param userId    The user ID associated with the transaction.
+     * @param amount    The transaction amount.
+     * @param type      The type of transaction (e.g., income or outcome).
+     * @param timestamp The timestamp indicating when the transaction occurred.
+     */
     public TransactionResponse(Long id, int userId, int amount, TransactionType type, LocalDateTime timestamp) {
         this.id = id;
         this.userId = userId;
