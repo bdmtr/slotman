@@ -20,7 +20,7 @@
 <li> Spring Boot  </li>
 <li> Spring Security  </li>
 <li> Hibernate  </li>
-- Vue.js
+<li> Vue.js </li>
 </ul>
 
 <h3>Frontend is dummy simple and is made only for testing purposes </h3>
