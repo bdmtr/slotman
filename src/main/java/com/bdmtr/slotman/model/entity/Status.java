@@ -1,6 +1,8 @@
 package com.bdmtr.slotman.model.entity;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -9,7 +11,9 @@ import java.util.Objects;
 public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "Status id" , example = "1")
     int id;
+    @Schema(name = "Status name" , example = "ACTIVE")
     String name;
 
     public Status() {

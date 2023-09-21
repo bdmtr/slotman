@@ -1,6 +1,8 @@
 package com.bdmtr.slotman.model.entity;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -19,14 +21,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
+    @Schema(name = "User ID", example = "1")
     private int id;
 
     @NotBlank(message = "username cant be blank")
     @Size(min=5, max=15, message = "username must be 5 symbols minimum, 15 maximum")
+    @Schema(name = "User name/login", example = "userman")
     private String username;
 
     @NotBlank(message = "password cant be blank")
     @Size(min=5)
+    @Schema(name = "User password", example = "pass123")
     private String password;
     private int income;
     private int outcome;
@@ -34,10 +39,12 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "roleId")
+    @Schema(name = "Role of current user. Can be ADMIN or USER", example = "USER")
     Role role;
 
     @ManyToOne
     @JoinColumn(name = "statusId")
+    @Schema(name = "User status", example = "active")
     Status status;
 
     public User(String username, String password, int income, int outcome, Timestamp creationDate, Role role, Status status) {

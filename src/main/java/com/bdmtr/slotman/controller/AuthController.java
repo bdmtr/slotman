@@ -3,6 +3,10 @@ package com.bdmtr.slotman.controller;
 import com.bdmtr.slotman.model.entity.User;
 import com.bdmtr.slotman.security.CustomUserDetails;
 import com.bdmtr.slotman.security.JwtTokenProvider;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @Log4j2
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 @CrossOrigin("http://localhost:8081")
+@Tag(name = "AuthController", description = "Controller class responsible for handling authentication-related requests.")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -43,6 +48,11 @@ public class AuthController {
      * @return A ResponseEntity containing a JWT token if authentication is successful, or an error message if authentication fails.
      */
     @PostMapping("/login")
+    @Operation(description = "Authenticates a user based on the provided credentials")
+    @ApiResponses(value ={
+            @ApiResponse(responseCode = "200", description = "User successfully authenticated."),
+            @ApiResponse(responseCode = "401", description = "Failed authentication")
+                } )
     public ResponseEntity<String> authenticateUser(@RequestBody User loginUser) {
         try {
             log.info("User '{}' successfully authenticated.", loginUser.getUsername());

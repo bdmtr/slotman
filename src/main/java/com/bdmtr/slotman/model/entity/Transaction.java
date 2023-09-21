@@ -1,6 +1,7 @@
 package com.bdmtr.slotman.model.entity;
 
 import com.bdmtr.slotman.model.enums.TransactionType;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -16,18 +17,23 @@ import java.util.Objects;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "Transaction id", example = "1")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Schema(name = "User that made transaction")
     private User user;
 
     @Min(value = 1, message = "cant send less then 1")
+    @Schema(name = "Transaction ammount" , example = "1000")
     private int amount;
 
     @Enumerated(EnumType.STRING)
+    @Schema(name = "Type of transaction" , example = "OUTCOME")
     private TransactionType type;
 
+    @Schema(name = "Date when transaction was made")
     private LocalDateTime timestamp;
 
     public Transaction() {

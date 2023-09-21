@@ -37,7 +37,7 @@ export default {
     registerUser() {
       this.errorMessage = null;
       axios
-          .post('http://localhost:8080/api/users/create', {
+          .post('http://localhost:8080/api/v1/users/create', {
             username: this.userData.username,
             password: this.userData.password,
           })

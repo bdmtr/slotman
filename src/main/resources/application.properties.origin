@@ -17,3 +17,6 @@ management.info.env.enabled=true
 #Security
 jwt.secret=
 jwt.expiration=
+
+openapi.dev-url=
+openapi.prod-url=

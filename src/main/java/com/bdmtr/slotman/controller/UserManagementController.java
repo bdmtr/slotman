@@ -4,6 +4,8 @@ import com.bdmtr.slotman.model.dto.UserDTO;
 import com.bdmtr.slotman.model.entity.Status;
 import com.bdmtr.slotman.model.entity.User;
 import com.bdmtr.slotman.model.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +17,9 @@ import java.util.Optional;
  * The `UserManagementController` class is a controller responsible for managing user-related operations and endpoints.
  */
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @CrossOrigin("http://localhost:8081")
+@Tag(name = "UserManagementController", description = "Controller responsible for managing user-related operations and endpoints.")
 public class UserManagementController {
 
     private final UserService userService;
@@ -31,6 +34,7 @@ public class UserManagementController {
      * @return A `ResponseEntity` containing a list of users and an HTTP status code (OK).
      */
     @GetMapping("/all")
+    @Operation(description = "Returns all users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -43,6 +47,7 @@ public class UserManagementController {
      * @return A `ResponseEntity` containing the user's details and an HTTP status code (OK) if found, or NOT_FOUND if not found.
      */
     @GetMapping("/{id}")
+    @Operation(description = "Retrieve a user by their ID.")
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
         Optional<User> user = userService.getUserById(id);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
@@ -56,6 +61,7 @@ public class UserManagementController {
      * @return A `ResponseEntity` with an HTTP status code (CREATED) indicating a successful user creation.
      */
     @PostMapping("/create")
+    @Operation(description = "Create a new user")
     public ResponseEntity<User> addUser(@RequestBody UserDTO user) {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -68,6 +74,7 @@ public class UserManagementController {
      * @return A `ResponseEntity` with an HTTP status code (OK) indicating a successful user update.
      */
     @PostMapping("/update")
+    @Operation(description = "Update an existing user")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -81,11 +88,10 @@ public class UserManagementController {
      * @return A `ResponseEntity` with an HTTP status code (OK) indicating a successful user status update.
      */
     @PostMapping("/{id}/update")
+    @Operation(description = "Update an existing user by its ID")
     public ResponseEntity<User> updateUserStatusById(@PathVariable("id") Integer id,
                                                      @RequestParam("status") Status status) {
         userService.updateUserStatusById(id, status);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

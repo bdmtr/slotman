@@ -77,7 +77,7 @@ export default {
         ;
 
         const response = await fetch(
-            `http://localhost:8080/api/personal/all?page=${page}&size=${this.pageSize}&username=${username}`,
+            `http://localhost:8080/api/v1/personal/all?page=${page}&size=${this.pageSize}&username=${username}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

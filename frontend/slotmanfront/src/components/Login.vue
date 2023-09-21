@@ -35,7 +35,7 @@ export default {
     loginUser() {
       this.loginError = null;
       axios
-          .post('http://localhost:8080/api/auth/login', {
+          .post('http://localhost:8080/api/v1/auth/login', {
             username: this.loginData.username,
             password: this.loginData.password,
           })

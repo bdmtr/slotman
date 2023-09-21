@@ -4,6 +4,8 @@ package com.bdmtr.slotman.controller;
 import com.bdmtr.slotman.model.request.TransactionResponse;
 import com.bdmtr.slotman.model.response.TransactionRequest;
 import com.bdmtr.slotman.model.service.TransactionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
  * for a specific user in the application.
  */
 @RestController
-@RequestMapping("/api/personal")
+@RequestMapping("/api/v1/personal")
 @CrossOrigin("http://localhost:8081")
+@Tag(name = "TransactionUserController", description = "Controller responsible for handling transaction-related requests for a specific user in the application without admin rights.")
 public class TransactionUserController {
     private final TransactionService transactionService;
 
@@ -32,6 +35,7 @@ public class TransactionUserController {
      * @return A `ResponseEntity` containing a paginated list of transaction responses and an HTTP status code.
      */
     @GetMapping("/all")
+    @Operation(description = "Get all transactions for user")
     public ResponseEntity<Page<TransactionResponse>> getAllTransactionsForUser(
             @RequestParam("username") String username,
             @RequestParam(defaultValue = "0") int page,
@@ -48,6 +52,7 @@ public class TransactionUserController {
      * @return A `ResponseEntity` with an HTTP status code (CREATED) indicating a successful transaction creation.
      */
     @PostMapping("/create")
+    @Operation(description = "Create a new transaction")
     public ResponseEntity<TransactionResponse> addTransaction(@RequestBody TransactionRequest transactionRequest) {
         transactionService.createTransaction(transactionRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);

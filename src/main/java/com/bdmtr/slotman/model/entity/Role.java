@@ -1,5 +1,7 @@
 package com.bdmtr.slotman.model.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,7 +10,10 @@ import java.util.Objects;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "Role id" , example = "1")
     int id;
+
+    @Schema(name = "Role name" , example = "ADMIN/USER")
     String name;
 
     public Role() {

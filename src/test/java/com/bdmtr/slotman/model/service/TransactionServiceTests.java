@@ -7,7 +7,6 @@ import com.bdmtr.slotman.model.mapper.TransactionMapper;
 import com.bdmtr.slotman.model.repository.TransactionRepository;
 import com.bdmtr.slotman.model.repository.UserRepository;
 import com.bdmtr.slotman.model.request.TransactionResponse;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@Ignore
 public class TransactionServiceTests {
     @Mock
     private TransactionRepository transactionRepository;
@@ -45,8 +43,8 @@ public class TransactionServiceTests {
     @InjectMocks
     private TransactionService transactionService;
 
-/*
-    @Test
+
+/*    @Test
     public void testGetAllTransactions() {
         List<Transaction> mockTransactions = new ArrayList<>();
         mockTransactions.add(transaction);
@@ -61,10 +59,10 @@ public class TransactionServiceTests {
         assertEquals(mockResponses.size(), result.size());
         verify(transactionRepository, times(1)).findAll();
         verify(transactionMapper, times(mockTransactions.size())).mapToResponse(any());
-    }
-*/
+    }*/
 
-/*    @Test
+
+    @Test
     public void testGetTransactionById() {
         Transaction mockTransaction = new Transaction();
         long transactionId = 1L;
@@ -91,9 +89,9 @@ public class TransactionServiceTests {
 
         verify(transactionRepository, times(1)).findById(transactionId);
         verify(transactionMapper, times(1)).mapToResponse(mockTransaction);
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void testGetAllByUserIdAndTypeAndTimestampBetween() {
         LocalDateTime dateTime = LocalDateTime.now();
         User user = new User();
@@ -137,5 +135,5 @@ public class TransactionServiceTests {
         assertEquals(2, responseList.size());
         assertSame(response1, responseList.get(0));
         assertSame(response2, responseList.get(1));
-    }*/
+    }
 }

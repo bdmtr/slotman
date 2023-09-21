@@ -1,10 +1,11 @@
 package com.bdmtr.slotman.controller;
 
-import com.bdmtr.slotman.model.repository.UserRepository;
 import com.bdmtr.slotman.model.response.TransactionRequest;
 import com.bdmtr.slotman.model.request.TransactionResponse;
 import com.bdmtr.slotman.model.enums.TransactionType;
 import com.bdmtr.slotman.model.service.TransactionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,8 +24,9 @@ import java.util.List;
  * @see TransactionService
  */
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/api/v1/transactions")
 @CrossOrigin("http://localhost:8081")
+@Tag(name = "TransactionAdminController", description = "Controller class that handles requests related to transactions")
 public class TransactionAdminController {
 
     private final TransactionService transactionService;
@@ -42,6 +44,7 @@ public class TransactionAdminController {
      * @return ResponseEntity containing a page of transaction responses and an HTTP status code.
      */
     @GetMapping("/all")
+    @Operation(description = "Retrieve a page of transactions for pagination purpose")
     public ResponseEntity<Page<TransactionResponse>> getAllTransactions(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -56,6 +59,7 @@ public class TransactionAdminController {
      * @return ResponseEntity containing the requested transaction response and an HTTP status code.
      */
     @GetMapping("/{id}")
+    @Operation(description =  "Retrieve a transaction by its id")
     public ResponseEntity<TransactionResponse> getTransactionById(@PathVariable("id") Long id) {
         TransactionResponse transactionResponse = transactionService.getTransactionById(id);
         return new ResponseEntity<>(transactionResponse, HttpStatus.OK);
@@ -71,6 +75,7 @@ public class TransactionAdminController {
      * @return ResponseEntity containing a list of transaction responses and an HTTP status code.
      */
     @GetMapping("/user")
+    @Operation(description = "Retrieve a transaction for user within a specific date range and of a particular type")
     public ResponseEntity<List<TransactionResponse>> getTransactionsForUser(@RequestParam("userId") Integer userId,
                                                                             @RequestParam("type") TransactionType type,
                                                                             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
@@ -86,6 +91,7 @@ public class TransactionAdminController {
      * @return ResponseEntity with an HTTP status code indicating the success of the transaction creation.
      */
     @PostMapping("/create")
+    @Operation(description = "Create a new transaction")
     public ResponseEntity<Void> addTransaction(@RequestBody TransactionRequest transactionRequest) {
         transactionService.createTransaction(transactionRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);

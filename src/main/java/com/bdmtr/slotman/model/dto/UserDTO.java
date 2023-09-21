@@ -1,9 +1,13 @@
 package com.bdmtr.slotman.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Objects;
 
 public class UserDTO {
+    @Schema(name = "User name" , example = "Userman")
     private String username;
+    @Schema(name = "User password" , example = "pass123")
     private String password;
 
     public UserDTO(String username, String password) {
