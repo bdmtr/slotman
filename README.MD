@@ -21,6 +21,7 @@
 <li> Spring Security  </li>
 <li> Hibernate  </li>
 <li> Vue.js </li>
+<li> Swagger3 </li>
 </ul>
 
 <h3>Frontend is dummy simple and is made only for testing purposes </h3>
